@@ -1,0 +1,23 @@
+table tbody tr:hover {
+    background-color: #FF0080;
+    cursor: pointer;
+}
+
+button {
+    width: 100%;
+}
+
+input {
+    width: 70%;
+    border-style: none;
+    background-color: #484848;
+    outline: #FF0080;
+    color: #F3F3F3;
+    height: 30px;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+input::placeholder {
+    text-align: center;
+}

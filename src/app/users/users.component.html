@@ -1,0 +1,26 @@
+<app-loading-spinner *ngIf="!users || users.length == 0"></app-loading-spinner>
+
+<table *ngIf="users && users.length > 0">
+    <caption>Users</caption>
+    <thead>
+        <tr>
+            <th colspan="5"><input type="text" placeholder="Search by name" [value]="searchValue" (input)="onInput($event)"></th>
+        </tr>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Phone</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of filteredUsers" (click)="navigateTo(user.id)">
+            <td data-label="#">{{user.id}}</td>
+            <td data-label="Name">{{user.name}}</td>
+            <td data-label="Username">{{user.username}}</td>
+            <td data-label="Email">{{user.email}}</td>
+            <td data-label="Phone">{{user.phone}}</td>
+        </tr>
+    </tbody>
+</table>

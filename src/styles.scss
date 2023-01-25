@@ -1,1 +1,99 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    background-color: #161616;
+    color: #F3F3F3;
+    font-family: 'Unbounded', cursive;
+    font-size: 0.9em;
+    width: 90%;
+    margin: auto;
+}
+
+table {
+    border: 1px solid #484848;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table caption {
+    font-size: 2em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+table tr {
+    border: 1px solid #484848;
+}
+
+table th {
+    background-color: #4F4F4F;
+    font-size: 0.85em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+table th,
+table td {
+    padding: 0.7em;
+    text-align: center;
+}
+
+button {
+    background-color: #E65B5B;
+    border-radius: 3px;
+    border-style: none;
+    box-sizing: border-box;
+    color: #F3F3F3;
+    cursor: pointer;
+    height: 30px;
+    line-height: 20px;
+    list-style: none;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+button:hover {
+  background-color: #FF0080;
+}
+
+
+@media screen and (max-width: 800px) {
+
+    body {
+        width: 96%;
+    }
+
+    table {
+        border: 0;
+    }
+
+    table caption {
+        font-size: 1.3em;
+    }
+
+    table thead tr:last-child {
+        height: 0px;
+        overflow: hidden;
+        position: absolute;
+    }
+
+    table tbody tr {
+        display: block;
+        margin-bottom: 0.7em;
+    }
+
+    table td {
+        display: block;
+        font-size: .8em;
+        text-align: right;
+    }
+
+    table td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    table td:last-child {
+        border-bottom: 0;
+    }
+}
