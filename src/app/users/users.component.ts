@@ -1,8 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { debounceTime, distinctUntilChanged, Observable, Subject, Subscription, take } from 'rxjs';
 import { User } from '../model/user';
 import { UserService } from '../service/user.service';
+import { UserActions } from '../store/user/user.action';
+import { areUsersLoaded, getUsers } from '../store/user/user.selector';
 
 @Component({
   selector: 'app-users',
@@ -10,6 +13,7 @@ import { UserService } from '../service/user.service';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit, OnDestroy {
+  areUsersLoaded$: Observable<boolean> = this.store.select(areUsersLoaded);
   users: User[] = [];
   filteredUsers: User[] = [];
   searchValue: string = '';
@@ -23,8 +27,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   );
 
   constructor(
-    private userService: UserService,
-    private router: Router
+    private router: Router,
+    private store: Store
   ) { }
 
   ngOnDestroy(): void {
@@ -32,7 +36,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loadUsers();
+    this.listenUsers();
     this.listenSearch();
   }
 
@@ -55,11 +59,11 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.subscriptions.push(s);
   }
 
-  private loadUsers(): void {
-    const s = this.userService.getUsers().subscribe(users => {
-        console.log(users);
-        this.users = users;
-        this.filteredUsers = users;
+  private listenUsers(): void {
+    const s = this.store.select(getUsers).subscribe(users => {
+        this.users = [];
+        users.forEach(val => this.users.push(Object.assign({}, val)));
+        this.filteredUsers = this.users;
       });
     this.subscriptions.push(s);
   }

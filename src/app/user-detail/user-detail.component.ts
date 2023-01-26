@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { User } from '../model/user';
-import { UserService } from '../service/user.service';
+import { UserActions } from '../store/user/user.action';
+import { getUser } from '../store/user/user.selector';
 
 @Component({
   selector: 'app-user-detail',
@@ -13,15 +15,17 @@ export class UserDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private userService: UserService,
-    private router: Router
-  ) {}
-  
+    private router: Router,
+    private store: Store
+  ) { }
+
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const id = params['id'];
       if (id) {
-        this.loadUser(id);
+        this.store.select(getUser({ id: id })).subscribe(u =>
+          this.user = u
+        );
       }
     });
   }
@@ -30,7 +34,8 @@ export class UserDetailComponent implements OnInit {
     this.router.navigate(['users']);
   }
 
-  private loadUser(id: number) {
-    this.userService.getUser(id).subscribe(user => this.user = user);
+  deleteUser() {
+    this.store.dispatch(UserActions.removeUser(this.user!.id));
+    this.navigateBackToList();
   }
 }
